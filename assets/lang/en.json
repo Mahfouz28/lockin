@@ -1,0 +1,67 @@
+{
+  "app_name": "Lock In",
+  "splash_title": "Focus & Lock In",
+  "splash_tagline": "Save time and focus on your life",
+  "crafted_by": "Crafted by Mahmoud Mahfouz",
+  "country_egypt": "Egypt 🇪🇬",
+
+  "welcome": "Welcome",
+  "welcome_from_app": "Welcome to Lock In",
+  "hero_subtitle": "Your digital wellbeing companion",
+
+  "get_started": "Get Started",
+  "next": "Next",
+  "skip": "Skip",
+  "done": "Done",
+
+  "home": "Home",
+  "settings": "Settings",
+  "profile": "Profile",
+  "logout": "Logout",
+
+  "home_title": "You're ready to lock in",
+  "home_subtitle": "Clean architecture, localization, and themes are ready out of the box.",
+  "home_cta_title": "Production-ready foundation",
+  "home_cta_subtitle": "Solid layering, dependency injection, routing, localization, and testing hooks baked in.",
+  "start_building": "Start building",
+
+  "made_with_love": "Made with love in Egypt",
+  "created_by": "Created by Abdullah Essam",
+
+  "onboarding_title_1": "Ready to lock in?",
+  "onboarding_desc_1": "Take control of your digital wellbeing and build healthier phone habits.",
+  "onboarding_title_2": "Track Your Usage",
+  "onboarding_desc_2": "Get detailed insights into how you spend time on your device and which apps you use the most.",
+  "onboarding_title_3": "Set Smart Limits",
+  "onboarding_desc_3": "Set daily limits for apps and stay focused on what matters most.",
+
+  "onboarding_feature_1": "Assets wired: logo and languages",
+  "onboarding_feature_2": "EasyLocalization configured in main",
+  "onboarding_feature_3": "Beautiful welcome flow: splash → onboarding → home",
+
+  "change_language": "Change Language",
+  "welcome_message": "Welcome to Lock In",
+  "focus_today": "Focus and save your time today",
+  "ready_to_focus": "Ready to focus?",
+  "start_tracking": "Start tracking screen time and limit apps now",
+
+  "language": "Language",
+  "arabic": "Arabic",
+  "english": "English",
+
+  "today": "Today",
+  "date_format": "EEEE, d MMMM yyyy",
+  "top_apps_today": "Top Apps Today",
+  "no_usage_data": "No usage data available for the selected period.",
+  
+  "period": {
+    "today": "Today",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  }
+,
+"Total time": "Total Time"
+
+
+}
