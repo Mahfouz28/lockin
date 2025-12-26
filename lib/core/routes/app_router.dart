@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lockin/features/facts/views/facts_screen.dart';
+import 'package:lockin/features/home/cubit/home_cubit.dart';
 import 'routes.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
@@ -18,7 +19,11 @@ class AppRouter {
       case Routes.home:
         return _buildRoute(const HomeScreen(), settings);
       case Routes.facts:
-        return _buildRoute(const FactsScreen(), settings);
+        final args = settings.arguments as UsagePeriod?;
+        return _buildRoute(
+          FactsScreen(period: args, minutesPerDay: 0),
+          settings,
+        );
 
       default:
         return _buildRoute(

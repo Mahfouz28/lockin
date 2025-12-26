@@ -152,7 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ? 'get_started'.tr()
                       : 'next'.tr(),
                   onPressed: _nextPage,
-                  color: Colors.white,
+                  color: AppColors.primaryLight,
                 ),
               ),
               const SizedBox(height: 12),

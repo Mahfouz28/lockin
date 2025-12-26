@@ -8,6 +8,7 @@ import 'package:lockin/core/routes/routes.dart';
 import 'package:lockin/core/widgets/custom_button.dart';
 import 'package:lockin/features/home/cubit/home_cubit.dart';
 import 'package:lockin/features/home/views/widgets/top_apps_list.dart';
+import 'package:lottie/lottie.dart';
 
 import 'widgets/focus_card.dart';
 import 'widgets/home_app_bar.dart';
@@ -89,8 +90,10 @@ class HomeScreen extends StatelessWidget {
                           if (isChartLoading) {
                             return SizedBox(
                               height: 220.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
+                              child: Center(
+                                child: LottieBuilder.asset(
+                                  "assets/lotti/Loading animation blue.json",
+                                ),
                               ),
                             );
                           }
@@ -107,7 +110,11 @@ class HomeScreen extends StatelessWidget {
                       CustomButton(
                         text: "See more Facts",
                         onPressed: () {
-                          Navigator.pushNamed(context, Routes.facts);
+                          Navigator.pushNamed(
+                            context,
+                            Routes.facts,
+                            arguments: context.read<HomeCubit>().state.period,
+                          );
                         },
                       ),
 

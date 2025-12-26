@@ -243,7 +243,7 @@ class AppTheme {
 
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: Colors.white,
+          foregroundColor: Colors.blue,
           textStyle: AppTypography.button,
         ),
       ),
