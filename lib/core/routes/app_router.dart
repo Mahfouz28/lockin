@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lockin/features/facts/views/facts_screen.dart';
+import 'package:lockin/features/foucs_mode/cubit/focus_mode_cubit.dart';
+import 'package:lockin/features/foucs_mode/views/foucs_mode_screen.dart';
+import 'package:lockin/core/services/shared_prefs_service.dart';
+import 'package:lockin/features/foucs_mode/services/installed_apps_service.dart';
 import 'package:lockin/features/home/cubit/home_cubit.dart';
+import 'package:lockin/features/noti/views/noti_screen.dart';
 import 'routes.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
@@ -15,7 +21,14 @@ class AppRouter {
       case Routes.splash:
         return _buildRoute(const SplashScreen(), settings);
       case Routes.onboarding:
-        return _buildRoute(const OnboardingScreen(), settings);
+        return _buildRoute(
+          BlocProvider(
+            create: (context) =>
+                FocusModeCubit(SharedPrefsService(), InstalledAppsService()),
+            child: const OnboardingScreen(),
+          ),
+          settings,
+        );
       case Routes.home:
         return _buildRoute(const HomeScreen(), settings);
       case Routes.facts:
@@ -24,6 +37,17 @@ class AppRouter {
           FactsScreen(period: args, minutesPerDay: 0),
           settings,
         );
+      case Routes.focusMode:
+        return _buildRoute(
+          FocusModeScreen(
+            prefsService: SharedPrefsService(),
+            installedAppsService: InstalledAppsService(),
+          ),
+          settings,
+        );
+
+      case Routes.notifications:
+        return _buildRoute(const NotificationsScreen(), settings);
 
       default:
         return _buildRoute(

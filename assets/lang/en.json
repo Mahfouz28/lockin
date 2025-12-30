@@ -98,6 +98,23 @@
     "tip_3": "Replace scrolling with something meaningful.\nRead, walk, think.",
     "tip_4": "Avoid screens before sleep.\nYour brain needs rest.",
     
-    "closing_message": "Your life is not on your phone.\nIt is happening right now."
+    "closing_message": "Your life is not on your phone.\nIt is happening right now.",
+    "focus mode": "Focus Mode"
+  },
+  "focus_mode": {
+    "notifications_channel": "Focus Sessions",
+    "notifications_channel_description": "Notifications when a focus session ends",
+    "focus_complete_ticker": "Focus session completed!",
+    "open_app": "Open App",
+    "focus_complete_message": "Congrats! You completed your focus session.",
+    "focus_complete_subtitle": "Focus session ended",
+    "focus_complete_title": "Focus Completed 🎉",
+    "focus_complete_body": "Well done! You completed your focus session successfully.",
+    "errors": {
+      "failed_load_apps": "Failed to load installed apps",
+      "select_one_app": "Please select at least one app",
+      "select_duration": "Please select focus duration first",
+      "failed_start_focus": "Failed to start focus mode"
+    }
   }
 }

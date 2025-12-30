@@ -23,12 +23,28 @@ class HomeState {
   final String? error;
   final int totalMinutes;
 
+  // Averages
+  final int dailyAverage;
+  final int weeklyAverage;
+  final int monthlyAverage;
+
+  // Warnings
+  final String? usageWarning;
+
+  // Most used app (new)
+  final String? mostUsedApp;
+
   HomeState({
     this.apps = const [],
     this.period = UsagePeriod.today,
     this.isLoading = false,
     this.error,
     this.totalMinutes = 0,
+    this.dailyAverage = 0,
+    this.weeklyAverage = 0,
+    this.monthlyAverage = 0,
+    this.usageWarning,
+    this.mostUsedApp,
   });
 
   HomeState copyWith({
@@ -37,8 +53,11 @@ class HomeState {
     bool? isLoading,
     String? error,
     int? totalMinutes,
-    int? totalMonthlyAvg,
-    int? totalYearlyAvg,
+    int? dailyAverage,
+    int? weeklyAverage,
+    int? monthlyAverage,
+    String? usageWarning,
+    String? mostUsedApp,
   }) {
     return HomeState(
       apps: apps ?? this.apps,
@@ -46,6 +65,11 @@ class HomeState {
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       totalMinutes: totalMinutes ?? this.totalMinutes,
+      dailyAverage: dailyAverage ?? this.dailyAverage,
+      weeklyAverage: weeklyAverage ?? this.weeklyAverage,
+      monthlyAverage: monthlyAverage ?? this.monthlyAverage,
+      usageWarning: usageWarning ?? this.usageWarning,
+      mostUsedApp: mostUsedApp ?? this.mostUsedApp,
     );
   }
 }

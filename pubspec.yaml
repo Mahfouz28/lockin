@@ -59,9 +59,16 @@ dependencies:
   cloud_firestore: ^6.1.1
   get_it: ^9.2.0
   animated_theme_switcher: ^2.0.10
-  app_usage: ^4.0.1
-  installed_apps: ^2.1.0  # عشان نجيب أسماء وأيقونات التطبيقات
+  installed_apps: ^2.1.0  
   fl_chart: ^0.68.0
+  flutter_overlay_window: 
+  circular_countdown_timer: ^0.2.4
+  flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+  workmanager: ^0.6.0
+  permission_handler: ^11.3.1
+  sleek_circular_slider: ^2.1.0 
+  app_usage: ^4.0.1
 
 
 dev_dependencies:

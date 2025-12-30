@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:lockin/core/services/shared_prefs_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../network/network_info.dart';
-import '../api/api_consumer.dart';
 import '../api/api_interceptors.dart';
 import '../config/app_config.dart';
 
@@ -11,6 +11,10 @@ final sl = GetIt.instance;
 
 /// Initialize Dependency Injection
 Future<void> init() async {
+  final prefsService = SharedPrefsService();
+  await prefsService.init();
+  sl.registerSingleton<SharedPrefsService>(prefsService);
+
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 

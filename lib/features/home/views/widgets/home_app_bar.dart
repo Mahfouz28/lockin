@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lockin/core/config/app_config.dart';
+import 'package:lockin/core/routes/routes.dart';
 import 'package:lockin/core/theme/colors.dart';
 import 'theme_language_switcher.dart';
 
@@ -65,7 +66,35 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: const [ThemeLanguageSwitcher()],
+      actions: [
+        const ThemeLanguageSwitcher(), // زر الإشعارات
+        IconButton(
+          icon: Stack(
+            children: [
+              const Icon(Icons.notifications_outlined),
+              // Badge لو في إشعارات غير مقروءة (اختياري)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Text(
+                    '3', // يمكنك جلب العدد من SharedPrefs
+                    style: TextStyle(fontSize: 10.sp, color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.notifications);
+          },
+        ),
+      ],
     );
   }
 
