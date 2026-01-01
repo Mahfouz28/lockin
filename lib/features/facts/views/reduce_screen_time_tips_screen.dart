@@ -18,54 +18,125 @@ class ReduceScreenTimeTipsScreen extends StatelessWidget {
       create: (_) => TipsViewModel(isPositive: isPositive),
       child: Scaffold(
         appBar: AppBar(title: Text('tips_screen.app_bar_title'.tr())),
-        body: Consumer<TipsViewModel>(
-          builder: (context, vm, _) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(24.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _AnimatedBlock(
-                    visible: vm.visible[0],
-                    child: Text(
-                      vm.header,
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                  ),
-                  SizedBox(height: 32.h),
+        body: const _TipsBody(),
+      ),
+    );
+  }
+}
 
-                  // Dynamic tip items
-                  ...List.generate(vm.tips.length, (index) {
-                    return _AnimatedBlock(
-                      visible: vm.visible[index + 1],
-                      child: _Tip(item: vm.tips[index]),
-                    );
-                  }),
+/* ─────────────────────────────── */
+/* TIPS BODY */
+/* ─────────────────────────────── */
+class _TipsBody extends StatelessWidget {
+  const _TipsBody();
 
-                  SizedBox(height: 32.h),
-
-                  _AnimatedBlock(
-                    visible: vm.visible.last,
-                    child: Text(
-                      vm.closingMessage,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium?.copyWith(height: 1.6),
-                    ),
-                  ),
-                  SizedBox(height: 32.h),
-                  CustomButton(
-                    text: "Back Home ",
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, Routes.home);
-                    },
-                  ),
-                ],
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<TipsViewModel>(
+      builder: (context, viewModel, _) {
+        return SingleChildScrollView(
+          padding: EdgeInsets.all(24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _HeaderSection(
+                visible: viewModel.visible[0],
+                header: viewModel.header,
               ),
-            );
-          },
+              SizedBox(height: 32.h),
+              _TipsList(
+                tips: viewModel.tips,
+                visibleStates: viewModel.visible.sublist(
+                  1,
+                  viewModel.tips.length + 1,
+                ),
+              ),
+              SizedBox(height: 32.h),
+              _ClosingSection(
+                visible: viewModel.visible.last,
+                closingMessage: viewModel.closingMessage,
+              ),
+              SizedBox(height: 32.h),
+              _BackHomeButton(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/* ─────────────────────────────── */
+/* HEADER SECTION */
+/* ─────────────────────────────── */
+class _HeaderSection extends StatelessWidget {
+  final bool visible;
+  final String header;
+
+  const _HeaderSection({required this.visible, required this.header});
+
+  @override
+  Widget build(BuildContext context) {
+    return _AnimatedBlock(
+      visible: visible,
+      child: Text(header, style: Theme.of(context).textTheme.headlineLarge),
+    );
+  }
+}
+
+/* ─────────────────────────────── */
+/* TIPS LIST */
+/* ─────────────────────────────── */
+class _TipsList extends StatelessWidget {
+  final List<TipModel> tips;
+  final List<bool> visibleStates;
+
+  const _TipsList({required this.tips, required this.visibleStates});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(
+        tips.length,
+        (index) => _AnimatedBlock(
+          visible: visibleStates[index],
+          child: _TipItem(item: tips[index]),
         ),
       ),
+    );
+  }
+}
+
+/* ─────────────────────────────── */
+/* CLOSING SECTION */
+/* ─────────────────────────────── */
+class _ClosingSection extends StatelessWidget {
+  final bool visible;
+  final String closingMessage;
+
+  const _ClosingSection({required this.visible, required this.closingMessage});
+
+  @override
+  Widget build(BuildContext context) {
+    return _AnimatedBlock(
+      visible: visible,
+      child: Text(
+        closingMessage,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1.6),
+      ),
+    );
+  }
+}
+
+/* ─────────────────────────────── */
+/* BACK HOME BUTTON */
+/* ─────────────────────────────── */
+class _BackHomeButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomButton(
+      text: "Back Home",
+      onPressed: () => Navigator.pushReplacementNamed(context, Routes.home),
     );
   }
 }
@@ -103,10 +174,10 @@ class _AnimatedBlock extends StatelessWidget {
 /* ─────────────────────────────── */
 /* TIP ITEM */
 /* ─────────────────────────────── */
-class _Tip extends StatelessWidget {
+class _TipItem extends StatelessWidget {
   final TipModel item;
 
-  const _Tip({required this.item});
+  const _TipItem({required this.item});
 
   @override
   Widget build(BuildContext context) {

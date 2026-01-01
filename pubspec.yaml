@@ -61,7 +61,7 @@ dependencies:
   animated_theme_switcher: ^2.0.10
   installed_apps: ^2.1.0  
   fl_chart: ^0.68.0
-  flutter_overlay_window: 
+  flutter_overlay_window: ^0.5.0 
   circular_countdown_timer: ^0.2.4
   flutter_local_notifications: ^19.5.0
   timezone: ^0.10.1

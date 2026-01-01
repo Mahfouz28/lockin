@@ -13,6 +13,7 @@
   "next": "Next",
   "skip": "Skip",
   "done": "Done",
+  "retry": "Retry",
 
   "home": "Home",
   "settings": "Settings",
@@ -63,6 +64,8 @@
   
   "Total time": "Total Time",
 
+  "seeMoreFacts": "See More Facts",
+
   "facts_screen": {
     "app_bar_title": "Your Time Reality",
     "tap_to_continue": "Tap to continue ({current}/{total})",
@@ -88,33 +91,153 @@
     }
   },
 
+ 
   "tips_screen": {
-    "app_bar_title": "Reclaim Your Time",
-    "header_positive": "You are already doing well",
-    "header_negative": "Small steps change everything",
+    "app_bar_title": "Tips & Guidance",
     
-    "tip_1": "Turn off non-essential notifications.\nSilence creates focus.",
-    "tip_2": "Set a daily screen limit.\nBoundaries protect your energy.",
-    "tip_3": "Replace scrolling with something meaningful.\nRead, walk, think.",
-    "tip_4": "Avoid screens before sleep.\nYour brain needs rest.",
+    "header_positive": "🎉 Amazing Progress!",
+    "header_negative": "Let's Improve Together",
     
-    "closing_message": "Your life is not on your phone.\nIt is happening right now.",
-    "focus mode": "Focus Mode"
+    "positive": {
+      "tip_1": "Celebrate your success! You've taken control of your screen time and it's paying off.",
+      "tip_2": "Keep the momentum going! Your reduced screen time shows real dedication to digital wellness.",
+      "tip_3": "You're building healthy habits! Continue practicing mindfulness with your device usage.",
+      "tip_4": "Track your wins! Keep monitoring your progress to stay motivated and aware.",
+      "tip_5": "Share your success! Your achievement can inspire others to take control of their screen time too."
+    },
+    
+    "negative": {
+      "tip_1": "Silence distractions: Turn off non-essential notifications to reduce the urge to check your phone constantly.",
+      "tip_2": "Set time limits: Use app timers and scheduled breaks to create boundaries with your devices.",
+      "tip_3": "Find alternatives: Replace scrolling with reading, journaling, or learning something new offline.",
+      "tip_4": "Create device-free zones: Keep screens out of the bedroom and dining areas for better sleep and connections.",
+      "tip_5": "Move your body: Take regular walks or exercise breaks instead of sitting with your device.",
+      "tip_6": "Charge away: Place your phone in another room while sleeping or working to reduce temptation."
+    },
+    
+    "closing_message_positive": "You're doing fantastic! Every small step counts toward a healthier relationship with technology. Keep up the excellent work, and remember that consistency is key to lasting change.",
+    
+    "closing_message_negative": "Remember, progress isn't always linear, and that's completely okay. Every moment of awareness is a step forward. You have the power to create the digital life you want. Start with one tip today, and build from there. You've got this!"
+  }
+,
+  "notifications": {
+    "focus_channel_name": "Focus Sessions",
+    "focus_channel_description": "Notifications for focus mode sessions",
+    "general_channel_name": "General Notifications",
+    "general_channel_description": "General app notifications"
   },
+
   "focus_mode": {
+    "title": "Focus Mode",
     "notifications_channel": "Focus Sessions",
     "notifications_channel_description": "Notifications when a focus session ends",
     "focus_complete_ticker": "Focus session completed!",
     "open_app": "Open App",
     "focus_complete_message": "Congrats! You completed your focus session.",
     "focus_complete_subtitle": "Focus session ended",
-    "focus_complete_title": "Focus Completed 🎉",
-    "focus_complete_body": "Well done! You completed your focus session successfully.",
+    "focus_complete_title": "Well Done! 🎉",
+    "focus_complete_body": "You've successfully completed your focus session. Time to take a break!",
+    "focus_warning_title": "Reminder ⏰",
+    "focus_warning_body": "5 minutes remaining in your focus session",
+    "focus_stopped_message": "Focus session has been stopped.",
+    "focus_started_message": "Focus session started. Stay focused!",
     "errors": {
       "failed_load_apps": "Failed to load installed apps",
       "select_one_app": "Please select at least one app",
       "select_duration": "Please select focus duration first",
       "failed_start_focus": "Failed to start focus mode"
+    },
+
+    "stop_focus_button": "Stop Focus Mode",
+    "stay_focused": "Stay Focused!",
+    "subtitle": "Choose apps to block and set your focus duration"
+  },
+  "motivational_text": "Keep pushing forward! You've got this! 🚀",
+
+  "stop_confirmation": {
+    "title": "Really give up?",
+    "message": "You're doing great! The session isn't over yet.\nAre you sure you want to stop?",
+    "keep_going": "Keep Going 💪",
+    "stop_anyway": "Stop Anyway"
+  },
+
+  "active_indicator_title": "Focus Mode Active",
+  "active_indicator_subtitle": "{0} minutes remaining",
+  "focus_warning_title": "Session ending soon!",
+  "focus_warning_body": "Only 5 minutes left... Keep going champion 💪",
+  
+  "usage_notification": {
+    "title": "Hourly Usage Update",
+    "body": "You spent {0} hours today. Most used: {1}",
+    "unknown_app": "your phone"
+  },
+
+  "timer": {
+    "recommended": "Recommended: 25-45 minutes",
+    "selected_badge": "{0} selected"
+  },
+
+  "validation": {
+    "select_at_least_one_app": "Please select at least one app to block"
+  },
+
+  "select_apps_and_duration": "Select apps and duration",
+  "select_apps_to_block": "Select apps to block",
+  "start_focus_button": "Start Focus Mode",
+  "show_more": "Show More",
+  "minutes": "minutes",
+
+  "facts_positive": {
+    "today": {
+      "great_job": "Great job! You spent only {hours} hours today, which is within the healthy limit of {healthyHours} hours.",
+      "mental_health": "Your balanced screen time helps maintain better mental health and reduces stress levels.",
+      "physical_activity": "By limiting screen time, you're giving yourself more time for physical activities and real-world connections.",
+      "productivity": "Studies show that people with controlled screen time tend to be more productive and focused.",
+      "keep_it_up": "Keep up the great work! Your healthy habits are setting you up for long-term success."
+    },
+    "weekly": {
+      "great_job": "Excellent! Your average daily screen time this week was {hours} hours, staying within the recommended {healthyHours} hours.",
+      "mental_health": "Maintaining healthy screen time throughout the week helps prevent digital fatigue and burnout.",
+      "physical_activity": "Your balanced week allows for better sleep quality and more physical activity.",
+      "productivity": "Consistent healthy habits like yours lead to improved focus and productivity over time.",
+      "keep_it_up": "Your weekly discipline is impressive! Continue this pattern for lasting benefits."
+    },
+    "monthly": {
+      "great_job": "Outstanding! Over the past month, you've averaged {hours} hours daily, well within the healthy {healthyHours} hours threshold.",
+      "mental_health": "A month of balanced screen time significantly improves overall mental wellbeing and reduces anxiety.",
+      "physical_activity": "Your consistent habits this month have given you ample time for exercise, hobbies, and social connections.",
+      "productivity": "Long-term healthy screen habits like yours are associated with better career performance and life satisfaction.",
+      "keep_it_up": "You've built an excellent routine! This consistency will serve you well in the future."
+    }
+  },
+  "facts_warning": {
+    "today": {
+      "exceeded": "You've spent {hours} hours on your phone today, exceeding the recommended {healthyHours} hours by {excessHours} hours.",
+      "eye_strain": "Excessive screen time can cause digital eye strain, headaches, and blurred vision. Consider taking regular breaks.",
+      "sleep_quality": "High screen time, especially before bed, disrupts your sleep cycle and reduces sleep quality.",
+      "productivity_loss": "Studies show that excessive phone use can reduce productivity by up to 40% due to constant distractions.",
+      "mental_health": "Prolonged screen time is linked to increased anxiety, depression, and feelings of loneliness.",
+      "life_impact": "At this rate, you'll spend about {monthlyHours} hours this month on your phone. Over a lifetime, that's {yearsLost} years lost.",
+      "take_action": "Small changes can make a big difference. Let's explore ways to reduce your screen time and improve your wellbeing."
+    },
+    "weekly": {
+      "exceeded": "This week, you averaged {hours} hours daily on your phone, which is {excessHours} hours above the healthy {healthyHours} hours limit.",
+      "eye_strain": "A week of excessive screen exposure significantly increases the risk of chronic eye problems and digital fatigue.",
+      "sleep_quality": "Consistent high screen time disrupts your circadian rhythm, leading to poor sleep patterns throughout the week.",
+      "productivity_loss": "Weekly patterns of excessive phone use create habits that severely impact your focus and work performance.",
+      "mental_health": "A week of heavy screen time can elevate stress hormones and reduce your ability to handle daily challenges.",
+      "life_impact": "Your weekly average of {hours} hours daily means {monthlyHours} hours per month. That's {yearlyDays} full days per year on your phone.",
+      "take_action": "Breaking this weekly pattern is crucial. We'll show you effective strategies to reclaim your time."
+    },
+    "monthly": {
+      "exceeded": "Over the past month, your daily average was {hours} hours, exceeding the healthy limit by {excessHours} hours each day.",
+      "eye_strain": "A month of excessive screen time can lead to permanent eye damage and chronic headaches that require medical attention.",
+      "sleep_quality": "Long-term sleep disruption from high screen time affects your immune system, memory, and overall health.",
+      "productivity_loss": "Monthly patterns of excessive use indicate a habit that's likely affecting your career, relationships, and personal goals.",
+      "mental_health": "Extended periods of high screen time are strongly associated with clinical depression and social isolation.",
+      "life_impact": "Over the next 40 years at this pace, you'll spend approximately {yearsLost} years of your life staring at a screen. That's time you'll never get back.",
+      "take_action": "It's time for a change. These proven techniques will help you build healthier habits starting today."
     }
   }
+  
 }

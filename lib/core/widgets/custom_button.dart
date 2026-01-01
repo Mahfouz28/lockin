@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed; // nullable عشان disabled
   final bool isLoading;
   final bool isOutlined;
-  final Color? color;
+  final Color? color; // لو عايز لون مخصص
   final double? width;
   final double height;
   final double borderRadius;
@@ -13,75 +13,111 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.text,
-    required this.onPressed,
+    this.onPressed,
     this.isLoading = false,
     this.isOutlined = false,
     this.color,
     this.width,
-    this.height = 56,
-    this.borderRadius = 16,
+    this.height = 64,
+    this.borderRadius = 32,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
-    final bool isDark = theme.brightness == Brightness.dark;
+    final Color primaryColor = color ?? theme.colorScheme.primary;
+    final Color accentColor = theme.colorScheme.secondary;
 
-    final Color backgroundColor = color ?? colorScheme.primary;
+    final bool isEnabled = onPressed != null && !isLoading;
 
-    final Color textColor = isDark ? colorScheme.onSecondary : Colors.white;
-
-    return SizedBox(
-      width: width ?? double.infinity,
-      height: height,
-      child: isOutlined
-          ? OutlinedButton(
-              onPressed: isLoading ? null : onPressed,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: textColor,
-                side: BorderSide(color: backgroundColor, width: 2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(borderRadius),
+    return Opacity(
+      opacity: isEnabled ? 1.0 : 0.5,
+      child: SizedBox(
+        width: width ?? double.infinity,
+        height: height,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: isEnabled
+                ? [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.6),
+                      blurRadius: 20,
+                      spreadRadius: 4,
+                      offset: const Offset(0, 8),
+                    ),
+                    BoxShadow(
+                      color: accentColor.withOpacity(0.4),
+                      blurRadius: 30,
+                      spreadRadius: 2,
+                    ),
+                  ]
+                : null,
+            gradient: isOutlined
+                ? null
+                : LinearGradient(
+                    colors: [primaryColor, accentColor],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+          ),
+          child: isOutlined
+              ? OutlinedButton(
+                  onPressed: isEnabled ? onPressed : null,
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: primaryColor, width: 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                  ),
+                  child: _buildChild(context, primaryColor),
+                )
+              : ElevatedButton(
+                  onPressed: isEnabled ? onPressed : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: _buildChild(context, Colors.white),
                 ),
-              ),
-              child: _buildChild(context, textColor),
-            )
-          : ElevatedButton(
-              onPressed: isLoading ? null : onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: backgroundColor,
-                foregroundColor: textColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                elevation: 4,
-                shadowColor: backgroundColor.withOpacity(0.4),
-              ),
-              child: _buildChild(context, textColor),
-            ),
+        ),
+      ),
     );
   }
 
   Widget _buildChild(BuildContext context, Color textColor) {
     if (isLoading) {
       return SizedBox(
-        width: 24,
-        height: 24,
+        width: 32,
+        height: 32,
         child: CircularProgressIndicator(
-          strokeWidth: 2.5,
-          valueColor: AlwaysStoppedAnimation<Color>(textColor),
+          strokeWidth: 4,
+          valueColor: AlwaysStoppedAnimation<Color>(textColor.withOpacity(0.8)),
+          backgroundColor: textColor.withOpacity(0.2),
         ),
       );
     }
 
     return Text(
       text,
-      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-        fontWeight: FontWeight.w900,
-        color: textColor,
-      ),
+      style:
+          Theme.of(context).textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w900,
+            color: textColor,
+            letterSpacing: 1.5,
+            fontSize: 20,
+          ) ??
+          TextStyle(
+            fontWeight: FontWeight.w900,
+            color: textColor,
+            fontSize: 20,
+            letterSpacing: 1.5,
+          ),
     );
   }
 }

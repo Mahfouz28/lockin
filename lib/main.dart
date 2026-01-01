@@ -1,147 +1,88 @@
+// lib/main.dart
+
 import 'dart:io';
 
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lockin/core/di/injection_container.dart'; // أهم إضافة
+import 'package:lockin/core/routes/app_router.dart';
+import 'package:lockin/core/routes/routes.dart';
+import 'package:lockin/core/services/notifcation_service.dart';
 import 'package:lockin/core/services/shared_prefs_service.dart';
+import 'package:lockin/core/theme/app_theme.dart';
+import 'package:lockin/core/localization/localization_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:workmanager/workmanager.dart'; // ← أضف ده
+import 'package:workmanager/workmanager.dart';
 
-import 'core/routes/app_router.dart';
-import 'core/routes/routes.dart';
-import 'core/theme/app_theme.dart';
-import 'core/localization/localization_manager.dart';
-
-// Global notification plugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-// Workmanager callback dispatcher (مهم جدًا يكون top-level)
+// Workmanager callback dispatcher (يجب يكون top-level)
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    if (task == 'focus_complete') {
-      // دالة الإشعار (هتكون معرفة في focus_mode_cubit أو هنا)
-      await showFocusCompleteNotification();
+    try {
+      // في الـ background isolate، مفيش GetIt جاهز، لازم نهيئ الإشعارات يدويًا
+      final notificationService = NotificationService();
+      await notificationService.initialize();
+
+      switch (task) {
+        case 'focus_complete':
+          await notificationService.showFocusCompleteNotification();
+          break;
+        case 'focus_ending_soon':
+          await notificationService.showFocusEndingSoonNotification();
+          break;
+      }
+    } catch (e) {
+      debugPrint('Workmanager task error: $e');
     }
+
     return Future.value(true);
   });
 }
 
-// دالة عرض الإشعار (يمكن تنقلها لملف منفصل لاحقًا)
-Future<void> showFocusCompleteNotification() async {
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-    'focus_complete_channel',
-    'Focus Mode',
-    channelDescription: 'Notification when focus session ends',
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: true,
-    enableVibration: true,
-  );
-
-  const DarwinNotificationDetails iOSDetails = DarwinNotificationDetails(
-    presentAlert: true,
-    presentBadge: true,
-    presentSound: true,
-  );
-
-  const NotificationDetails notificationDetails = NotificationDetails(
-    android: androidDetails,
-    iOS: iOSDetails,
-  );
-
-  await flutterLocalNotificationsPlugin.show(
-    100,
-    'Focus Session Complete! 🎉',
-    'Amazing work! You stayed focused and completed your session.',
-    notificationDetails,
-  );
-
-  // حفظ في التاريخ
-  await SharedPrefsService().addNotification(
-    'Focus Session Complete! 🎉',
-    'Amazing work! You stayed focused and completed your session.',
-  );
+Future<ThemeData> _getInitialTheme() async {
+  // بنستخدم الـ SharedPrefsService المسجل في GetIt بعد التهيئة
+  final isDark = await sl<SharedPrefsService>().getBool('is_dark_mode');
+  return isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
 }
 
-// طلب إذن الإشعارات (Android 13+)
-Future<void> requestNotificationPermission() async {
+Future<void> _requestCriticalPermissions() async {
   if (Platform.isAndroid) {
     final status = await Permission.notification.status;
-
-    if (status.isDenied) {
+    if (status.isDenied || status.isPermanentlyDenied) {
       await Permission.notification.request();
     }
-
-    if (status.isPermanentlyDenied) {
-      await openAppSettings();
-    }
   }
-}
-
-// تهيئة الإشعارات
-Future<void> initNotifications() async {
-  tz.initializeTimeZones();
-
-  const AndroidInitializationSettings androidInit =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  const DarwinInitializationSettings iOSInit = DarwinInitializationSettings(
-    requestAlertPermission: true,
-    requestBadgePermission: true,
-    requestSoundPermission: true,
-  );
-
-  const InitializationSettings initSettings = InitializationSettings(
-    android: androidInit,
-    iOS: iOSInit,
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(initSettings);
-}
-
-// تهيئة Workmanager
-Future<void> initWorkManager() async {
-  await Workmanager().initialize(
-    callbackDispatcher,
-    isInDebugMode: false, // true لو عايز تشوف logs في debug
-  );
-}
-
-Future<ThemeData> _getInitialTheme() async {
-  final prefs = await SharedPreferences.getInstance();
-  final isDark = prefs.getBool('is_dark_mode') ?? false;
-  return isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
+  // أضف صلاحيات تانية لاحقًا لو احتجت (مثل Usage Stats لقفل التطبيقات)
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // تهيئة EasyLocalization
   await EasyLocalization.ensureInitialized();
 
-  final sharedPrefsService = SharedPrefsService();
-  await sharedPrefsService.init();
+  // أهم خطوة: تهيئة كل التبعيات باستخدام GetIt
+  await initializeDependencies();
 
-  // تهيئة الإشعارات
-  await initNotifications();
+  // تهيئة Workmanager للمهام في الخلفية (حتى لو التطبيق مقفول)
+  await Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: false, // غيّر لـ true لو عايز تشوف logs في الـ debug
+  );
 
-  // تهيئة Workmanager (مهم جدًا للإشعار حتى لو app killed)
-  await initWorkManager();
+  // طلب الصلاحيات المهمة من أول مرة
+  await _requestCriticalPermissions();
 
-  // طلب إذن الإشعارات من أول تشغيل
-  await requestNotificationPermission();
-
+  // تحديد اتجاه الشاشة
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
+  // ستايل شريط الحالة
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -149,6 +90,7 @@ void main() async {
     ),
   );
 
+  // جلب الثيم الأولي بناءً على الإعدادات المحفوظة
   final initialTheme = await _getInitialTheme();
 
   runApp(
@@ -181,14 +123,14 @@ class MyApp extends StatelessWidget {
               clipper: const ThemeSwitcherCircleClipper(),
               builder: (context) {
                 return MaterialApp(
-                  title: 'Lock In',
+                  title: 'لوك إن',
                   debugShowCheckedModeBanner: false,
                   theme: myTheme,
-                  initialRoute: Routes.splash,
-                  onGenerateRoute: AppRouter.generateRoute,
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
+                  initialRoute: Routes.splash,
+                  onGenerateRoute: AppRouter.generateRoute,
                 );
               },
             );
